@@ -30,6 +30,13 @@
 	<build>
 		<plugins>
 			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
@@ -49,14 +56,15 @@
 						<descriptor>src/assemble/jar-with-libdir.xml</descriptor>
 					</descriptors>
 				</configuration>
-				<!-- <executions>
-									<execution>
-										<id>make-assembly</id>
-										<goals>
-											<goal>attached</goal>
-										</goals>
-									</execution>
-								</executions> -->
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
