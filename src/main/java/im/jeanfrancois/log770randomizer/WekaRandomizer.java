@@ -27,6 +27,12 @@ public class WekaRandomizer {
 	@Option(name = "-outputPrefix", usage = "Prefix for output ARFF file(s)")
 	private String outputPrefix = "output-";
 
+	@Option(name = "-wekaClassifierArgs", usage = "Weka classifier arguments")
+	private String wekaClassifierArgs;
+
+	@Option(name = "-wekaOutputFilePrefix", usage = "Weka output file prefix")
+	private String wekaOutputFilenamePrefix = "wekaout-";
+
 	private Random random = new SecureRandom();
 
 	/**
@@ -55,6 +61,13 @@ public class WekaRandomizer {
 		for (int fileNum = 0; fileNum < generatedFileCount; ++fileNum) {
 			generateOutputFile(fileNum, header, data);
 		}
+
+		// Show the Weka command line args if wanted
+		if(wekaClassifierArgs != null) {
+			for (int fileNum = 0; fileNum < generatedFileCount; ++fileNum) {
+			System.out.println("java " + wekaClassifierArgs + " -t " + new File(generateFileName(fileNum)).getAbsolutePath() + " > " + new File(wekaOutputFilenamePrefix + (fileNum + 1) + ".log").getAbsolutePath());
+			}
+		}
 	}
 
 	/**
@@ -66,7 +79,7 @@ public class WekaRandomizer {
 	 */
 	private void generateOutputFile(int fileNum, List<String> header, List<String> data) {
 		try {
-			String generatedFileName = outputPrefix + (fileNum + 1) + ".arff";
+			String generatedFileName = generateFileName(fileNum);
 			System.out.print("Generating output file " + generatedFileName + "... ");
 
 			// Open the output file
@@ -102,6 +115,10 @@ public class WekaRandomizer {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private String generateFileName(int fileNum) {
+		return outputPrefix + (fileNum + 1) + ".arff";
 	}
 
 	/**
